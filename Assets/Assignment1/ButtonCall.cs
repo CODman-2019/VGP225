@@ -5,26 +5,31 @@ using UnityEngine.UI;
 
 public class ButtonCall : MonoBehaviour
 {
-    private bool used;
+    private bool used = false;
     private int playedBy;
-    
+
+    private void Start()
+    {
+        GetComponent<Image>().sprite = null;
+    }
+
     public void ChangeTile(int side)
     {
         if (!used)
         {
-            if(side == 0)
-            {
-                GetComponent<Image>().sprite = Game.game.player_Icon();
-                playedBy = 0;
-                Game.game.AIMove();
-            }
-            else
-            {
-                GetComponent<Image>().sprite = Game.game.AI_Icon();
-                playedBy = 1;
-            }
+            playedBy = side;
             used = true;
 
+
+            if(side == 0)
+            {
+                GetComponent<Image>().sprite = Game.game.AI_Icon();
+            }
+            else if( side == 1)
+            {
+                GetComponent<Image>().sprite = Game.game.player_Icon();
+                Game.game.AIMove();
+            }
         }
     }
 
@@ -33,5 +38,7 @@ public class ButtonCall : MonoBehaviour
     public void Reset()
     {
         used = false;
+        GetComponent<Image>().sprite = null;
+        playedBy = -1;
     }
 }
